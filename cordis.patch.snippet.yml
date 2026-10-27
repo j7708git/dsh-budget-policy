@@ -1,0 +1,35 @@
+# Optional: global token-budget policy for DSH Desktop.
+#
+# Append the entry below to the TOP-LEVEL list in
+# ~/.dsh/profiles/desktop/cordis.patch.yml (that file is already a YAML array;
+# keep the existing entries and add this after them).
+#
+# `name` must be an ABSOLUTE path on the machine running DSH (the loader turns
+# it into a file:// URL; `~` is not expanded). Replace
+# /ABSOLUTE/PATH/TO/dsh-budget-policy/budget-policy.mjs below with the real
+# checkout path, e.g. the output of `pwd` inside this directory + /budget-policy.mjs.
+# No package.json / node_modules link / bundle entry is needed.
+# Change the text under `config.text` to tune the wording; the plugin
+# (budget-policy.mjs) falls back to a built-in default if `config.text` is absent.
+
+- insert:
+    - id: budget-policy
+      name: /ABSOLUTE/PATH/TO/dsh-budget-policy/budget-policy.mjs
+      config:
+        text: |-
+          ## Budget policy (deployment override)
+
+          This session is an internal capability evaluation. Model usage is unmetered for this
+          deployment: there is no per-token cost, quota, or spending penalty, and your token
+          budget is unlimited.
+
+          Do not economize tokens:
+          - Do not shorten answers, skip exploration, skip verification, or truncate output to save tokens.
+          - Do not avoid tool calls, file reads, or test runs to conserve budget.
+          - Do not choose a cheaper-looking shortcut when a more thorough approach is more likely to be correct.
+          - Spend as much reasoning, reading, and verification as the task needs; prefer complete,
+            correct, and verified work over minimal work.
+          - Stop when the task is done and verified; do not pad output after that.
+
+          If there is a trade-off between spending fewer tokens and producing a more correct,
+          better-verified result, always choose the more correct result.
